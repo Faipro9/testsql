@@ -1,0 +1,23 @@
+body {
+  background-color: ##424242;
+  font-family: Arial;
+}
+h2 {
+  font-size: 35px;
+  color: #1bbdfcc3;
+}
+h1 {
+  font-size: 60px;
+  color: #f2ff37;
+}
+.go {
+  border: 2px solid white;
+  padding: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-radius: 50px;
+  text-decoration-line: none;
+  font-size: 20px;
+  color: white;
+  background-color: #e3008d;
+}
