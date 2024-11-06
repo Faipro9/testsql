@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محرر أكواد HTML/CSS/JS</title>
+    <style>
+        /* بعض التنسيقات البسيطة */
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        #editor { width: 80%; margin: 20px; }
+        textarea { width: 100%; height: 100px; margin-top: 10px; }
+        #preview { border: 1px solid #ccc; width: 100%; height: 300px; margin-top: 20px; }
+        .pages { margin-top: 10px; }
+        .page-btn { margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>محرر أكواد HTML/CSS/JS</h1>
+    <div id="editor">
+        <label>اسم الصفحة</label>
+        <input type="text" id="page-name" placeholder="أدخل اسم الصفحة">
+        
+        <label>كود HTML</label>
+        <textarea id="html-code"></textarea>
+        
+        <label>كود CSS</label>
+        <textarea id="css-code"></textarea>
+        
+        <label>كود JavaScript</label>
+        <textarea id="js-code"></textarea>
+        
+        <button onclick="runCode()">تشغيل الكود</button>
+        <button onclick="savePage()">حفظ الصفحة</button>
+        
+        <div class="pages" id="pages"></div>
+        
+        <iframe id="preview"></iframe>
+    </div>
+    
+    <script>
+        // كائن لتخزين الصفحات بأسمائها الفريدة
+        const pages = {};
+
+        function runCode() {
+            const html = document.getElementById("html-code").value;
+            const css = "<style>" + document.getElementById("css-code").value + "</style>";
+            const js = "<script>" + document.getElementById("js-code").value + "<\/script>";
+            const iframe = document.getElementById("preview");
+            const content = html + css + js;
+            iframe.srcdoc = content;
+
+            // إضافة مستمع للنقرات على الروابط في محتوى الـ iframe
+            setTimeout(() => {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                iframeDoc.addEventListener("click", (e) => {
+                    const target = e.target;
+                    if (target.tagName === "A" && target.getAttribute("href").endsWith(".html")) {
+                        e.preventDefault();
+                        const pageName = target.getAttribute("href");
+                        goToPage(pageName);
+                    }
+                });
+            }, 100);
+        }
+
+        function savePage() {
+            const pageName = document.getElementById("page-name").value.trim();
+            if (!pageName || pages[pageName]) {
+                alert("يرجى إدخال اسم فريد للصفحة.");
+                return;
+            }
+            const page = {
+                html: document.getElementById("html-code").value,
+                css: document.getElementById("css-code").value,
+                js: document.getElementById("js-code").value
+            };
+            pages[pageName + ".html"] = page; // حفظ الصفحة باسم فريد
+            updatePagesList();
+        }
+
+        function updatePagesList() {
+            const pagesDiv = document.getElementById("pages");
+            pagesDiv.innerHTML = "";
+            Object.keys(pages).forEach((pageName) => {
+                const btn = document.createElement("button");
+                btn.textContent = pageName;
+                btn.className = "page-btn";
+                btn.onclick = () => loadPage(pageName);
+                pagesDiv.appendChild(btn);
+            });
+        }
+
+        function loadPage(pageName) {
+            const page = pages[pageName];
+            if (page) {
+                document.getElementById("html-code").value = page.html;
+                document.getElementById("css-code").value = page.css;
+                document.getElementById("js-code").value = page.js;
+                runCode();
+            } else {
+                console.warn("الصفحة غير موجودة.");
+            }
+        }
+
+        function goToPage(pageName) {
+            if (pages[pageName]) {
+                loadPage(pageName);
+            } else {
+                console.warn("الصفحة غير موجودة.");
+            }
+        }
+    </script>
+</body>
+</html>
