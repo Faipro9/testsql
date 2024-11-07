@@ -1,0 +1,66 @@
+<html>
+
+<body>
+    <input type="text" id="tit">
+    <button onclick="filescanner()" id="run">run</button>
+    
+    <h1 id="res"></h1>
+    
+
+    <script>
+      
+        function filescanner(){
+            var fn = document.getElementById("tit");
+            var res = document.getElementById("res");
+            var run = document.getElementById("run");
+            
+            file = fn.value;
+            
+            text = file.indexOf(".");
+            
+            text2 = text + 1;
+            var cc = file.substring(text2);
+            if(cc=="html"){
+                res.innerHTML = "html";
+            }
+            else if(cc=="css"){
+                res.innerHTML = "css";
+            }
+            else if(cc=="js"){
+                res.innerHTML = "javascript";
+            }
+            else if(cc=="txt"){
+                res.innerHTML = "text";
+            }
+            else if(cc=="php"){
+                res.innerHTML = "php";
+            }
+            else if(cc=="json"){
+                res.innerHTML = "json";
+            }
+            else if(cc=="xml"){
+                res.innerHTML = "xml";
+            }
+            else if(cc=="py"){
+                res.innerHTML ="python";
+            }
+            else if(cc=="java"){
+                res.innerHTML = "java";
+            }
+            else if(cc=="go"){
+                res.innerHTML ="Go";
+            }
+            else if(cc=="cpp"){
+                res.innerHTML ="c++";
+            }
+            else if(cc=="c"){
+                res.innerHTML ="c";
+            }
+            
+            
+        }
+        
+
+    </script>
+</body>
+</html>
